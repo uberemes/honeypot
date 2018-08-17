@@ -56,6 +56,7 @@ sudo nano /home/cowrie/cowrie/bin/cowrie
 -> DAEMONIZE="-n"
 
 #### test ####
+/home/cowrie/cowrie/etc/cowrie.cfg
 [ssh]
 listen_endpoints = tcp:22:interface=0.0.0.0
 or
