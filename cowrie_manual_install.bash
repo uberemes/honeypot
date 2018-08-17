@@ -1,4 +1,3 @@
-#!/bin/sh
 cowrie install:
 source https://github.com/micheloosterhof/cowrie/blob/master/INSTALL.md
 
