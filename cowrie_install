@@ -1,6 +1,7 @@
 #!/bin/sh
 `cowrie install: source https://github.com/micheloosterhof/cowrie/blob/master/INSTALL.md`
 `git clone https://github.com/uberemes/honeypot.git`
+`sudo wget https://github.com/uberemes/honeypot/blob/master/cowrie_install`
 
 
 `prepare cowrie setup`
@@ -15,7 +16,8 @@ cd /etc/ssh && sudo rm sshd_config && sudo wget https://raw.githubusercontent.co
 `# port 22`
 `-> port 1234`
 
-sudo touch /etc/authbind/byport/22 && sudo chown cowrie /etc/authbind/byport/22 && sudo chmod 777 /etc/authbind/byport/22
+`auth-bind testing now with listen_endpoints`
+`sudo touch /etc/authbind/byport/22 && sudo chown cowrie /etc/authbind/byport/22 && sudo chmod 777 /etc/authbind/byport/22`
 
 
 `sudo adduser --disabled-password cowrie`
@@ -44,9 +46,9 @@ cd $var_pwd/cowrie/data
 sudo ssh-keygen -t dsa -b 1024 -f ssh_host_dsa_key
 
 
-cd /etc/supervisor/conf.d/ && sudo wget https://raw.githubusercontent.com/uberemes/honeypot/master/cowrie.conf
+cd /etc/supervisor/conf.d/ && sudo wget https://github.com/uberemes/honeypot/blob/master/cowrie.conf
 
-sudo nano $var_pwd/cowrie/bin/cowrie
+sudo cd $var_pwd/cowrie/bin && sudo rm cowrie -f && sudo wget https://github.com/uberemes/honeypot/blob/master/cowrie
 `# DAEMONIZE=""`
 `-> DAEMONIZE="-n"`
 
@@ -55,8 +57,8 @@ sudo nano $var_pwd/cowrie/bin/cowrie
 `listen_endpoints = tcp:22:interface=0.0.0.0`
 `or`
 `# forwards traffic on port 22 -> 2222`
-sudo iptables -t nat -A PREROUTING -p tcp --dport 22 -j REDIRECT --to-port 2222
-sudo apt-get install iptables-persistent
+`sudo iptables -t nat -A PREROUTING -p tcp --dport 22 -j REDIRECT --to-port 2222`
+`sudo apt-get install iptables-persistent`
 `# save iptables later state`
 `sudo netfilter-persistent save`
 `#### test ####`
