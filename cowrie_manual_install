@@ -1,10 +1,10 @@
 cowrie install:
 source https://github.com/micheloosterhof/cowrie/blob/master/INSTALL.md
 
-sudo apt update && sudo apt upgrade -y
-sudo apt update && sudo apt install git python-virtualenv libssl-dev libffi-dev build-essential libpython-dev python2.7-minimal authbind supervisor -y
+sudo apt update && sudo apt upgrade -y && sudo apt install git python-virtualenv libssl-dev libffi-dev build-essential libpython-dev python2.7-minimal authbind supervisor -y
 
 sudo adduser --disabled-password cowrie
+`[ ] test: sudo adduser cowrie --gecos "First Last,RoomNumber,WorkPhone,HomePhone" --disabled-password`
 sudo su - cowrie
 
 git clone http://github.com/micheloosterhof/cowrie && cd cowrie
@@ -20,6 +20,7 @@ pip install --upgrade -r requirements.txt
 ### in new terminal as root ###
 # config file
 sudo cp /home/cowrie/cowrie/etc/cowrie.cfg.dist /home/cowrie/cowrie/etc/cowrie.cfg
+`sudo wget https://raw.githubusercontent.com/uberemes/honeypot/master/cowrie.cfg -P /home/cowrie/cowrie/etc/`
 
 cd /home/cowrie/cowrie/data
 sudo ssh-keygen -t dsa -b 1024 -f ssh_host_dsa_key
