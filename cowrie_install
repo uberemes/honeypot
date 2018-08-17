@@ -3,8 +3,21 @@
 `git clone https://github.com/uberemes/honeypot.git`
 
 
+`prepare cowrie setup`
+`update the system`
 sudo apt update && sudo apt upgrade -y
+`install need packages`
 sudo apt install git python-virtualenv libssl-dev libffi-dev build-essential libpython-dev python2.7-minimal authbind supervisor -y
+
+`## Switch SSH (management port to different port example 1234)`
+sudo nano /etc/ssh/sshd_config
+`# port 22`
+`-> port 1234`
+
+touch /etc/authbind/byport/22
+chown cowrie /etc/authbind/byport/22
+chmod 777 /etc/authbind/byport/22
+
 
 `sudo adduser --disabled-password cowrie`
 sudo adduser cowrie --gecos "First Last,RoomNumber,WorkPhone,HomePhone" --disabled-password
@@ -24,21 +37,13 @@ pip install --upgrade -r requirements.txt
 
 `### in new terminal as root ###`
 `# config file`
-`cd $var_pwd/cowrie/etc/ && wget https://raw.githubusercontent.com/uberemes/honeypot/master/cowrie.cfg`
-sudo cp $var_pwd/cowrie/etc/cowrie.cfg.dist $var_pwd/cowrie/etc/cowrie.cfg
+`sudo cp $var_pwd/cowrie/etc/cowrie.cfg.dist $var_pwd/cowrie/etc/cowrie.cfg`
+cd $var_pwd/cowrie/etc/ && wget https://raw.githubusercontent.com/uberemes/honeypot/master/cowrie.cfg
 
-cd /home/cowrie/cowrie/data
+cd $var_pwd/cowrie/data
 sudo ssh-keygen -t dsa -b 1024 -f ssh_host_dsa_key
 
-`## Switch SSH (management port to different port example 1234)`
-sudo nano /etc/ssh/sshd_config
-`# port 22`
-`-> port 1234`
 
-
-touch /etc/authbind/byport/22
-chown cowrie /etc/authbind/byport/22
-chmod 777 /etc/authbind/byport/22
 
 
 sudo nano /home/cowrie/cowrie/etc/cowrie.cfg
