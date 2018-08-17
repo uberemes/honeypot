@@ -1,6 +1,7 @@
 #!/bin/sh
 `cowrie install: source https://github.com/micheloosterhof/cowrie/blob/master/INSTALL.md`
 `git clone https://github.com/uberemes/honeypot.git`
+`copy line below`
 `sudo wget https://github.com/uberemes/honeypot/blob/master/cowrie_install`
 
 var_pwd=$(pwd)
