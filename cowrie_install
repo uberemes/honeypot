@@ -44,20 +44,9 @@ cd $var_pwd/cowrie/data
 sudo ssh-keygen -t dsa -b 1024 -f ssh_host_dsa_key
 
 
+cd /etc/supervisor/conf.d/ && sudo wget https://raw.githubusercontent.com/uberemes/honeypot/master/cowrie.conf
 
-
-
-cd /etc/supervisor/conf.d/ && wget https://raw.githubusercontent.com/uberemes/honeypot/master/cowrie.conf
-`##### ADD #####`
-[program:cowrie]
-command=/home/cowrie/cowrie/bin/cowrie start
-directory=/home/cowrie/cowrie/
-user=cowrie
-autorestart=true
-redirect_stderr=true
-`################`
-
-sudo nano /home/cowrie/cowrie/bin/cowrie
+sudo nano $var_pwd/cowrie/bin/cowrie
 `# DAEMONIZE=""`
 `-> DAEMONIZE="-n"`
 
