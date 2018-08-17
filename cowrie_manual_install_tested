@@ -21,7 +21,7 @@ pip install --upgrade -r requirements.txt
 ### in new terminal as root ###
 # config file
 sudo cp /home/cowrie/cowrie/etc/cowrie.cfg.dist /home/cowrie/cowrie/etc/cowrie.cfg
-`sudo wget https://raw.githubusercontent.com/uberemes/honeypot/master/cowrie.cfg -P /home/cowrie/cowrie/etc/`
+
 
 cd /home/cowrie/cowrie/data
 sudo ssh-keygen -t dsa -b 1024 -f ssh_host_dsa_key
