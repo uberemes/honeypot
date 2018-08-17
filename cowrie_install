@@ -3,7 +3,7 @@
 `git clone https://github.com/uberemes/honeypot.git`
 `sudo wget https://github.com/uberemes/honeypot/blob/master/cowrie_install`
 
-
+var_pwd=$(pwd)
 `prepare cowrie setup`
 `update the system`
 sudo apt update && sudo apt upgrade -y
@@ -24,9 +24,11 @@ cd /etc/ssh && sudo rm sshd_config && sudo wget https://raw.githubusercontent.co
 sudo adduser cowrie --gecos "First Last,RoomNumber,WorkPhone,HomePhone" --disabled-password
 sudo su - cowrie
 
+`Here is a auth-bind error?`
+
+
 `store current dir`
-var_pwd=$(pwd)
-git clone http://github.com/micheloosterhof/cowrie && cd $var_pwd/cowrie
+git clone http://github.com/micheloosterhof/cowrie && cd /home/cowrie/cowrie
 
 virtualenv --python=python3 cowrie-env
 virtualenv --python=python2 cowrie-env
@@ -38,17 +40,17 @@ pip install --upgrade -r requirements.txt
 
 `### in new terminal as root ###`
 `# config file`
-`sudo cp $var_pwd/cowrie/etc/cowrie.cfg.dist $var_pwd/cowrie/etc/cowrie.cfg`
-cd $var_pwd/cowrie/etc/ && wget https://raw.githubusercontent.com/uberemes/honeypot/master/cowrie.cfg
+`sudo cp /home/cowrie/cowrie/etc/cowrie.cfg.dist /home/cowrie/cowrie/etc/cowrie.cfg`
+cd /home/cowrie/cowrie/etc/ && wget https://raw.githubusercontent.com/uberemes/honeypot/master/cowrie.cfg
 `manual version` `sudo nano /home/cowrie/cowrie/etc/cowrie.cfg` `#change hostname`
 
-cd $var_pwd/cowrie/data
+cd /home/cowrie/cowrie/data
 sudo ssh-keygen -t dsa -b 1024 -f ssh_host_dsa_key
-
+exit
 
 cd /etc/supervisor/conf.d/ && sudo wget https://github.com/uberemes/honeypot/blob/master/cowrie.conf
 
-sudo cd $var_pwd/cowrie/bin && sudo rm cowrie -f && sudo wget https://github.com/uberemes/honeypot/blob/master/cowrie
+sudo cd /home/cowrie/cowrie/bin && sudo rm cowrie -f && sudo wget https://github.com/uberemes/honeypot/blob/master/cowrie
 `# DAEMONIZE=""`
 `-> DAEMONIZE="-n"`
 
