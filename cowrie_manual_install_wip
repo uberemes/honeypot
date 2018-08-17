@@ -1,3 +1,4 @@
+#!/bin/bash
 `wait 1 minute
 pi
 wait 30 seconds
@@ -15,13 +16,14 @@ tab
 enter
 sudo reboot now`
 
-`testing syntax`
+`testing syntax
 cowrie install:
-source https://github.com/micheloosterhof/cowrie/blob/master/INSTALL.md
+source https://github.com/micheloosterhof/cowrie/blob/master/INSTALL.md`
 
 sudo apt update && sudo apt upgrade -y && sudo apt install git python-virtualenv libssl-dev libffi-dev build-essential libpython-dev python2.7-minimal authbind supervisor -y
 
-sudo adduser --disabled-password cowrie
+adduser --disabled-password --gecos "" cowrie
+`sudo adduser --disabled-password cowrie`
 `[ ] test: sudo adduser cowrie --gecos "First Last,RoomNumber,WorkPhone,HomePhone" --disabled-password`
 
 `############## usr cowrie ##############`
