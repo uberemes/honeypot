@@ -24,46 +24,48 @@ source https://github.com/micheloosterhof/cowrie/blob/master/INSTALL.md`
 sudo apt update && sudo apt upgrade -y && sudo apt install git python-virtualenv libssl-dev libffi-dev build-essential libpython-dev python2.7-minimal authbind supervisor -y
 
 adduser --disabled-password --gecos "" cowrie
-`sudo adduser --disabled-password cowrie`
-`[ ] test: sudo adduser cowrie --gecos "First Last,RoomNumber,WorkPhone,HomePhone" --disabled-password`
 
 `############## usr cowrie ##############`
-sudo su - cowrie
-git clone http://github.com/micheloosterhof/cowrie && cd cowrie
+cd ~cowrie
+su cowrie -c "git clone http://github.com/micheloosterhof/cowrie"
+cd cowrie
 
-virtualenv --python=python3 cowrie-env
-virtualenv --python=python2 cowrie-env
+su cowrie -c "virtualenv --python=python3 cowrie-env"
+su cowrie -c "virtualenv --python=python2 cowrie-env"
 
 source cowrie-env/bin/activate
-pip install --upgrade pip
-pip install --upgrade -r requirements.txt
+su cowrie -c "pip install --upgrade pip"
+su cowrie -c "pip install --upgrade -r requirements.txt"
 
-touch /etc/authbind/byport/22
-chown cowrie:cowrie /etc/authbind/byport/22
-chmod 770 /etc/authbind/byport/22
+su cowrie -c "touch /etc/authbind/byport/22"
+su cowrie -c "chown cowrie:cowrie /etc/authbind/byport/22"
+su cowrie -c "chmod 770 /etc/authbind/byport/22"
 
 `change text in file`
 sed -i 's/AUTHBIND_ENABLED=no/AUTHBIND_ENABLED=yes/g' bin/cowrie
-sed -i 's/listen_endpoints = tcp:2222:interface=0.0.0.0/listen_endpoints = tcp:22:interface=0.0.0.0/g' cowrie.cfg
+sed -i 's/DAEMONIZE=""/DAEMONIZE="-n"/g' bin/cowrie
+sed -i 's/listen_endpoints = tcp:1337:interface=0.0.0.0/listen_endpoints = tcp:22:interface=0.0.0.0/g' /home/cowrie/cowrie/etc/cowrie.cfg.dist
 `############## usr cowrie ##############`
 
 
-### in new terminal as root ###
+`### in new terminal as root ###
 # config file
-wget https://raw.githubusercontent.com/uberemes/honeypot/master/cowrie.cfg -P /home/cowrie/cowrie/etc/
+wget https://raw.githubusercontent.com/uberemes/honeypot/master/cowrie.cfg -P /home/cowrie/cowrie/etc/`
 
 
-cd /home/cowrie/cowrie/data
-sudo ssh-keygen -t dsa -b 1024 -f ssh_host_dsa_key
+`cd /home/cowrie/cowrie/data
+sudo ssh-keygen -t dsa -b 1024 -f ssh_host_dsa_key`
+su cowrie -c "ssh-keygen -t dsa -b 1024 -f ssh_host_dsa_key -N \"\""
 
-## Switch SSH (management port to different port example 1234)
-sudo rm sshd_config -f && sudo wget https://raw.githubusercontent.com/uberemes/honeypot/master/sshd_config -P /etc/ssh/
+`## Switch SSH (management port to different port example 1234)
+sudo rm sshd_config -f && sudo wget https://raw.githubusercontent.com/uberemes/honeypot/master/sshd_config -P /etc/ssh/`
+sed -i 's/Port 22/Port 1337/g' /etc/ssh/sshd_config
 
-sudo nano /home/cowrie/cowrie/etc/cowrie.cfg
-#change hostname
+`sudo nano /home/cowrie/cowrie/etc/cowrie.cfg
+#change hostname`
 
 
-sudo nano /etc/supervisor/conf.d/cowrie.conf
+`sudo nano /etc/supervisor/conf.d/cowrie.conf
 ##### ADD #####
 [program:cowrie]
 command=/home/cowrie/cowrie/bin/cowrie start
@@ -71,17 +73,18 @@ directory=/home/cowrie/cowrie/
 user=cowrie
 autorestart=true
 redirect_stderr=true
-################
+################`
+wget https://raw.githubusercontent.com/uberemes/honeypot/master/cowrie.conf -P /etc/supervisor/conf.d/
 
-sudo nano /home/cowrie/cowrie/bin/cowrie
+`sudo nano /home/cowrie/cowrie/bin/cowrie
 # DAEMONIZE=""
--> DAEMONIZE="-n"
+-> DAEMONIZE="-n"`
 
-sudo touch /etc/authbind/byport/22
+`sudo touch /etc/authbind/byport/22
 sudo chown cowrie /etc/authbind/byport/22
 sudo chmod 777 /etc/authbind/byport/22
 sudo nano /home/cowrie/cowrie/bin/cowrie.cfg
-->AUTHBIND_ENABLED=yes
+->AUTHBIND_ENABLED=yes`
 
 
 
