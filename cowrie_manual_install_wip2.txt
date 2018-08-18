@@ -1,0 +1,28 @@
+#!/bin/bash
+sudo apt update && sudo apt upgrade -y && sudo apt install git python-virtualenv libssl-dev libffi-dev build-essential libpython-dev python2.7-minimal authbind supervisor -y
+
+adduser --disabled-password --gecos "" cowrie
+
+cd ~cowrie
+su cowrie -c "git clone http://github.com/micheloosterhof/cowrie"
+cd cowrie
+
+su cowrie -c "virtualenv --python=python3 cowrie-env"
+su cowrie -c "virtualenv --python=python2 cowrie-env"
+
+source cowrie-env/bin/activate
+su cowrie -c "pip install --upgrade pip"
+su cowrie -c "pip install --upgrade -r requirements.txt"
+su cowrie -c "touch /etc/authbind/byport/22"
+su cowrie -c "chown cowrie:cowrie /etc/authbind/byport/22"
+su cowrie -c "chmod 770 /etc/authbind/byport/22"
+
+sed -i 's/AUTHBIND_ENABLED=no/AUTHBIND_ENABLED=yes/g' bin/cowrie
+sed -i 's/DAEMONIZE=""/DAEMONIZE="-n"/g' bin/cowrie
+sed -i 's/listen_endpoints = tcp:1337:interface=0.0.0.0/listen_endpoints = tcp:22:interface=0.0.0.0/g' /home/cowrie/cowrie/etc/cowrie.cfg.dist
+wget https://raw.githubusercontent.com/uberemes/honeypot/master/cowrie.cfg -P /home/cowrie/cowrie/etc/`
+
+su cowrie -c "ssh-keygen -t dsa -b 1024 -f ssh_host_dsa_key -N \"\""
+
+sed -i 's/Port 22/Port 1337/g' /etc/ssh/sshd_config
+wget https://raw.githubusercontent.com/uberemes/honeypot/master/cowrie.conf -P /etc/supervisor/conf.d/
