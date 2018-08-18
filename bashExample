@@ -3,7 +3,8 @@
 
 export DEBIAN_FRONTEND=noninteractive
 apt-get update && apt-get -y upgrade
-apt-get -y install git python-virtualenv python-pip libmpfr-dev libssl-dev libmpc-dev libffi-dev build-essential libpython-dev python2.7-minimal authbind
+
+apt-get -y install git python-virtualenv python-pip libmpfr-dev libssl-dev libmpc-dev libffi-dev build-essential libpython-dev python2.7-minimal authbind supervisor
 adduser --disabled-password --gecos "" cowrie
 cd ~cowrie
 su cowrie -c "git clone http://github.com/micheloosterhof/cowrie"
@@ -17,8 +18,8 @@ su cowrie -c "ssh-keygen -t dsa -b 1024 -f ssh_host_dsa_key -N \"\""
 cd ..
 export PYTHONPATH=/home/cowrie/cowrie
 sed -i 's/AUTHBIND_ENABLED=no/AUTHBIND_ENABLED=yes/g' bin/cowrie
-sed -i 's/listen_endpoints = tcp:2222:interface=0.0.0.0/listen_endpoints = tcp:22:interface=0.0.0.0/g' cowrie.cfg
-sed -i 's/Port 22/Port 2222/g' /etc/ssh/sshd_config
+sed -i 's/listen_endpoints = tcp:1337:interface=0.0.0.0/listen_endpoints = tcp:22:interface=0.0.0.0/g' cowrie.cfg
+sed -i 's/Port 22/Port 1337/g' /etc/ssh/sshd_config
 service ssh restart
 touch /etc/authbind/byport/22
 chown cowrie:cowrie /etc/authbind/byport/22
