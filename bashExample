@@ -18,10 +18,12 @@ su cowrie -c "ssh-keygen -t dsa -b 1024 -f ssh_host_dsa_key -N \"\""
 cd ..
 export PYTHONPATH=/home/cowrie/cowrie
 sed -i 's/AUTHBIND_ENABLED=no/AUTHBIND_ENABLED=yes/g' bin/cowrie
+sed -i 's/DAEMONIZE=""/DAEMONIZE="-n"/g' bin/cowrie
 sed -i 's/listen_endpoints = tcp:1337:interface=0.0.0.0/listen_endpoints = tcp:22:interface=0.0.0.0/g' cowrie.cfg
 sed -i 's/Port 22/Port 1337/g' /etc/ssh/sshd_config
 service ssh restart
 touch /etc/authbind/byport/22
 chown cowrie:cowrie /etc/authbind/byport/22
 chmod 770 /etc/authbind/byport/22
+sudo wget https://raw.githubusercontent.com/uberemes/honeypot/master/cowrie.conf -P /etc/supervisor/conf.d/
 su cowrie -c "bin/cowrie start"
